@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>机器人基础常识 · 50题</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
+    }
+    body {
+      background-color: #f9fbfd;
+      color: #333;
+      line-height: 1.6;
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-bottom: 80px; /* 为底部导航留空间 */
+    }
+    .logo-container {
+      text-align: center;
+      margin: 20px 0 24px;
+      padding: 10px;
+      background: #eef7ff;
+      border-radius: 14px;
+    }
+    .logo-container img {
+      max-width: 260px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: transform 0.3s ease;
+    }
+    .logo-container img:hover {
+      transform: scale(1.03);
+    }
+    .header {
+      text-align: center;
+      margin: 0 0 25px;
+      padding: 12px;
+      background: #e3f2fd;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 22px;
+      color: #1976d2;
+      margin-bottom: 8px;
+    }
+    .progress {
+      font-size: 16px;
+      color: #555;
+      margin-top: 6px;
+    }
+    .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      background: #dbeafe;
+      padding: 10px 0;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      color: #1e40af;
+      font-weight: 500;
+    }
+    .global-controls {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .global-controls button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0 6px;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    #submitAllBtn {
+      background: #10b981;
+      color: white;
+    }
+    #submitAllBtn:hover {
+      background: #059669;
+    }
+    #restartBtn {
+      background: #f59e0b;
+      color: white;
+    }
+    #restartBtn:hover {
+      background: #d97706;
+    }
+    .question-container {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    }
+    .question-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .option {
+      padding: 14px 18px;
+      background: #f5f9ff;
+      border: 2px solid #e0e7ff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 17px;
+    }
+    .option:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+    .option.selected {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      font-weight: bold;
+    }
+    .option.correct {
+      background: #dcfce7;
+      border-color: #22c55e;
+    }
+    .option.incorrect {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #submitBtn {
+      background: #3b82f6;
+      color: white;
+    }
+    #submitBtn:hover {
+      background: #2563eb;
+    }
+    #submitBtn:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+    #prevBtn, #nextBtn {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
+    #prevBtn:hover, #nextBtn:hover {
+      background: #cbd5e1;
+    }
+    .explanation {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f0f9ff;
+      border-left: 4px solid #0ea5e9;
+      border-radius: 0 8px 8px 0;
+      font-size: 16px;
+      color: #1e40af;
+      display: none;
+    }
+    .explanation.show {
+      display: block;
+    }
+    .extension {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #bae6fd;
+      font-size: 15px;
+      color: #0c4a6e;
+    }
+    .summary-card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+      text-align: center;
+      display: none;
+    }
+    .summary-card.show {
+      display: block;
+    }
+    .summary-card h2 {
+      color: #166534;
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+    .summary-stats {
+      font-size: 18px;
+      line-height: 2;
+      color: #334155;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #718096;
+      font-size: 14px;
+    }
+    /* ===== 新增：底部导航栏 ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      padding: 8px 0;
+      z-index: 1000;
+      display: none; /* 初始隐藏 */
+    }
+    .nav-title {
+      font-size: 14px;
+      color: #4b5563;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .nav-scroll {
+      display: flex;
+      overflow-x: auto;
+      padding: 0 12px;
+      gap: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .nav-scroll::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+    .nav-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    /* ===== 新增：模态弹窗 ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 90%;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.show .modal-content {
+      transform: translateY(0);
+    }
+    .modal-content h3 {
+      color: #ef4444;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding-bottom: 80px;
+      }
+      .question-text {
+        font-size: 17px;
+      }
+      .option {
+        font-size: 16px;
+        padding: 12px 16px;
+      }
+      button {
+        padding: 12px;
+        font-size: 16px;
+      }
+      .stats-bar {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+      .global-controls button {
+        display: block;
+        width: 90%;
+        margin: 6px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo -->
+  <div class="logo-container">
+    <img src="https://api.zcat.cn/udata/724044/png/a0dcc489dc23aaea52bb301214a4b32e.png" alt="后浪科创" class="">
+  </div>
+  
+  <div class="header">
+    <h1 class="">机器人基础常识 · 专项练习 50题</h1>
+    <div class="progress" id="progress">第 1 题 / 共 50 题</div>
+  </div>
+  
+  <!-- 实时统计栏 -->
+  <div class="stats-bar" id="statsBar">
+    <div class="">已答：<span id="answeredCount" class="">0</span>/50</div>
+    <div class="">正确：<span id="correctCount" class="">0</span> 题</div>
+    <div class="">正确率：<span id="accuracy" class="">0</span>%</div>
+  </div>
+  
+  <!-- 全局控制按钮 -->
+  <div class="global-controls">
+    <button id="submitAllBtn" class="">整卷提交</button>
+    <button id="restartBtn" class="">重新答题</button>
+  </div>
+  
+  <!-- 底部导航栏（初始隐藏） -->
+  <div class="bottom-nav" id="bottomNav">
+    <div class="nav-title">📌 点击题目编号跳转</div>
+    <div class="nav-scroll" id="navScroll"></div>
+  </div>
+  
+  <!-- 模态弹窗（初始隐藏） -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <h3 id="modalMessage" class="">请先选择一个答案！</h3>
+      <button onclick="closeModal()" style="margin-top:12px;padding:8px 16px;background:#3b82f6;color:white;border:none;border-radius:6px;cursor:pointer;" class="">确定</button>
+    </div>
+  </div>
+  
+  <div class="question-container">
+    <div class="question-text" id="questionText"></div>
+    <div class="options" id="options"></div>
+    <div class="explanation" id="explanation"></div>
+    <div class="controls">
+      <button id="prevBtn" class="">上一题</button>
+      <button id="submitBtn" class="">提交本题答案</button>
+      <button id="nextBtn" class="">下一题</button>
+    </div>
+  </div>
+  
+  <!-- 总结卡片（完成后显示） -->
+  <div class="summary-card" id="summaryCard">
+    <h2 class="">🎉 答题完成！</h2>
+    <div class="summary-stats">
+      <div class="">总用时：<span id="totalTime" class="">--</span></div>
+      <div class="">答对题目：<span id="finalCorrect" class="">--</span> / 50</div>
+      <div class="">正确率：<span id="finalAccuracy" class="">--</span>%</div>
+    </div>
+    <div style="margin-top:20px;" class="">
+      <button id="restartFromSummary" style="background:#3b82f6;color:white;padding:12px 24px;border:none;border-radius:8px;font-weight:bold;" class="">再做一遍</button>
+    </div>
+  </div>
+  
+  <div class="footer">
+    后浪科创 · 奇思妙想·创未来 | 支持手机答题 · 仅供学员初赛训练使用，严禁传播
+  </div>
+  
+  <script>
+    let startTime = Date.now();
+    let totalTime = 0;
+    const questions = [
+      { 
+        q: "机器人系统的基本结构不包括以下哪一项？", 
+        options: ["机械部分", "传感部分", "控制部分", "装饰部分"], 
+        answer: "D", 
+        explanation: "机器人三大组成是机械、传感、控制，装饰部分不是必备结构。",
+        detail: "机器人作为自动执行工作的机器装置，必须具备感知环境、处理信息和执行动作的能力。装饰部分虽然可能提升外观，但并非机器人功能实现的必要组成部分。"
+      },
+      { 
+        q: "提出\"机器人三定律\"的科学家是？", 
+        options: ["阿基米德", "阿西莫夫", "牛顿", "张衡"], 
+        answer: "B", 
+        explanation: "阿西莫夫在1942年提出机器人三定律，是机器人伦理准则。",
+        detail: "艾萨克·阿西莫夫（Isaac Asimov）是美国著名科幻作家，在其短篇小说《我，机器人》中首次提出了著名的机器人三定律，这些定律后来成为机器人伦理研究的基础。"
+      },
+      { 
+        q: "世界上第一台工业机器人之父是？", 
+        options: ["英格伯格", "德沃尔", "维纳", "恰佩克"], 
+        answer: "A", 
+        explanation: "英格伯格被称为工业机器人之父。",
+        detail: "约瑟夫·英格伯格（Joseph Engelberger）与乔治·德沃尔合作开发了世界上第一台可编程工业机器人Unimate，并于1961年将其应用于通用汽车的生产线上，因此被誉为\"工业机器人之父\"。"
+      },
+      { 
+        q: "\"Robot\"机器人一词最早出自哪国作家？", 
+        options: ["美国", "捷克斯洛伐克", "英国", "日本"], 
+        answer: "B", 
+        explanation: "1920年捷克作家恰佩克创造\"Robot\"一词。",
+        detail: "捷克作家卡雷尔·恰佩克（Karel Čapek）在其1920年的戏剧《罗素姆万能机器人》（R.U.R.）中首次使用了\"Robot\"一词，该词源自捷克语\"robota\"，意为\"苦力\"或\"强制劳动\"。"
+      },
+      { 
+        q: "下列哪项是机器人的驱动方式？", 
+        options: ["电力驱动", "风力驱动", "水力驱动", "太阳能驱动"], 
+        answer: "A", 
+        explanation: "机器人常用驱动：电力、液压、气压。",
+        detail: "机器人驱动系统主要有三种类型：电力驱动（如电机）、液压驱动（利用液体压力）和气压驱动（利用气体压力）。电力驱动因控制精确、清洁环保而应用最广泛。"
+      },
+      { 
+        q: "机器人的控制系统相当于人体的？", 
+        options: ["大脑", "心脏", "肌肉", "骨骼"], 
+        answer: "A", 
+        explanation: "控制系统负责思考、发指令，像人的大脑。",
+        detail: "机器人的控制系统如同人类的大脑，负责接收传感器信息、处理数据、做出决策并向执行机构发送指令。现代机器人控制系统通常基于微处理器或计算机系统。"
+      },
+      { 
+        q: "下列属于服务机器人的是？", 
+        options: ["工厂机械臂", "扫地机器人", "焊接机器人", "搬运机器人"], 
+        answer: "B", 
+        explanation: "扫地机器人为生活服务，属于服务机器人；其他是工业机器人。",
+        detail: "服务机器人是指为人类提供各种服务的机器人，包括家用（如扫地机器人、陪伴机器人）、医疗（如手术机器人）、教育等领域。工业机器人则主要用于制造业生产环节。"
+      },
+      { 
+        q: "机器人三大组成部分中，负责运动执行的是？", 
+        options: ["机械部分", "传感部分", "控制部分", "电源部分"], 
+        answer: "A", 
+        explanation: "机械部分是身体，负责运动和支撑。",
+        detail: "机器人的机械部分包括机身、关节、执行器等，相当于人体的骨骼和肌肉系统，负责执行具体的物理动作和提供结构支撑。这是机器人与环境直接交互的物理载体。"
+      },
+      { 
+        q: "第一代机器人被称为？", 
+        options: ["智能机器人", "示教再现型", "感知型", "自主型"], 
+        answer: "B", 
+        explanation: "第一代是示教再现，重复动作，无感知。",
+        detail: "第一代机器人（1950s-1960s）属于示教再现型，通过人工引导记录动作轨迹，然后重复执行。它们不具备环境感知能力，无法适应工作环境的变化，主要用于简单重复的工业任务。"
+      },
+      { 
+        q: "第三代机器人属于？", 
+        options: ["示教再现", "感知型", "智能型", "半自动型"], 
+        answer: "C", 
+        explanation: "第三代是智能机器人，能判断、决策。",
+        detail: "第三代机器人具有高级智能，能够理解环境、学习经验、自主决策并适应复杂多变的任务需求。这类机器人融合了人工智能、机器学习、计算机视觉等先进技术。"
+      },
+      { 
+        q: "下列哪部电影的机器人形象是\"大白\"？", 
+        options: ["机器人总动员", "超能陆战队", "变形金刚", "终结者"], 
+        answer: "B", 
+        explanation: "大白出自《超能陆战队》。",
+        detail: "大白（Baymax）是迪士尼动画电影《超能陆战队》中的医疗机器人角色，外形圆润可爱，性格温和体贴，能够通过扫描诊断疾病并提供相应的医疗护理，体现了服务机器人的理想形象。"
+      },
+      { 
+        q: "电影《机器人总动员》的主角是？", 
+        options: ["大卫", "瓦力", "安德鲁", "查派"], 
+        answer: "B", 
+        explanation: "主角是垃圾清理机器人瓦力。",
+        detail: "《机器人总动员》（WALL-E）是皮克斯动画工作室制作的科幻动画电影，主角瓦力（WALL-E）是一个地球上的垃圾清理机器人，在人类离开后的废弃地球上孤独工作了数百年。"
+      },
+      { 
+        q: "下列哪项不属于机器人能力评价标准？", 
+        options: ["智能", "机能", "物理能", "颜值"], 
+        answer: "D", 
+        explanation: "评价标准：智能、机能、物理能，和颜值无关。",
+        detail: "机器人能力评价主要从三个方面：智能（信息处理、决策能力）、机能（通用性、变通性）和物理能（力量、速度、可靠性）。外观设计虽重要，但不属于核心能力评价标准。"
+      },
+      { 
+        q: "工业机器人的特点不包括？", 
+        options: ["适应差环境", "动作精准", "可重复劳动", "必须有人全程控制"], 
+        answer: "D", 
+        explanation: "工业机器人可自动工作，不需要全程人工控制。",
+        detail: "工业机器人最大的优势之一就是能够自动执行预设程序，无需人工持续干预。它们可以在危险、恶劣或不适合人类工作的环境中长时间稳定运行，提高生产效率和安全性。"
+      },
+      { 
+        q: "机器人的动力来源通常是？", 
+        options: ["齿轮", "电池", "梁", "销"], 
+        answer: "B", 
+        explanation: "电池提供电能，是机器人最常用动力源。",
+        detail: "电池作为便携式能源，为移动机器人提供电能驱动电机和其他电子元件。工业固定式机器人则通常直接连接电网供电。此外，还有液压、气压等其他动力形式，但电能最为普遍。"
+      },
+      { 
+        q: "简单电路必备的三个部分不包括？", 
+        options: ["电源", "导线", "用电器", "开关"], 
+        answer: "D", 
+        explanation: "简单电路必备：电源、导线、用电器；开关不是必需。",
+        detail: "一个完整的简单电路必须包含电源（提供电能）、导线（传输电流）和用电器（消耗电能）。开关只是控制电路通断的元件，并非电路工作的必要条件，许多简单电路没有开关也能工作。"
+      },
+      { 
+        q: "电池在电路中提供？", 
+        options: ["电压", "电阻", "电流消耗", "信号"], 
+        answer: "A", 
+        explanation: "电池提供电压，是推动电流的动力。",
+        detail: "电池通过化学反应产生电势差（电压），当电路闭合时，这个电压会推动电子在导线中定向移动形成电流。电压是电路工作的驱动力，单位是伏特（V）。"
+      },
+      { 
+        q: "电阻在电路中的作用是？", 
+        options: ["提供动力", "阻碍电流", "储存电能", "放大信号"], 
+        answer: "B", 
+        explanation: "电阻的作用是阻碍电流。",
+        detail: "电阻是导体对电流的阻碍作用，单位是欧姆（Ω）。在电路中，电阻可以限制电流大小、分压、发热等。所有导体都有一定电阻，超导体除外。机器人电路中常用电阻保护元件。"
+      },
+      { 
+        q: "串联电路的特点是？", 
+        options: ["一条通路", "多条通路", "电压相等", "互不影响"], 
+        answer: "A", 
+        explanation: "串联电路只有一条路径，一处断全断。",
+        detail: "串联电路中，所有元件依次连接，电流只有一条路径可走。因此，任何一个元件断开都会导致整个电路中断。串联电路中电流处处相等，总电压等于各元件电压之和。"
+      },
+      { 
+        q: "马达的作用是将电能转化为？", 
+        options: ["热能", "机械能", "光能", "声能"], 
+        answer: "B", 
+        explanation: "马达把电能转成机械能，让机器人动起来。",
+        detail: "马达（电动机）是机器人中最常用的执行器，它利用电磁感应原理将电能转换为旋转或直线运动的机械能。不同类型的马达（如直流电机、步进电机、伺服电机）适用于不同的机器人应用场景。"
+      },
+      { 
+        q: "下列属于安全用电的是？", 
+        options: ["湿手碰电路", "接线前断电", "直接短路电池", "用手摸电极"], 
+        answer: "B", 
+        explanation: "拼装电路前先断电，是最安全的做法。",
+        detail: "安全用电的基本原则包括：操作前断开电源、使用绝缘工具、避免潮湿环境、不随意改动电路等。在机器人组装和维修过程中，务必先切断电源，防止触电或短路造成伤害。"
+      },
+      { 
+        q: "西周时期偃师制造的\"伶人\"属于？", 
+        options: ["现代机器人", "古代机器人雏形", "玩具", "交通工具"], 
+        answer: "B", 
+        explanation: "伶人是中国最早记载的古代机器人雏形。",
+        detail: "据《列子·汤问》记载，西周时期的工匠偃师曾为周穆王制作了一个能歌善舞的木质偶人\"伶人\"，这被认为是中国历史上最早的机器人雏形，展示了古人对自动化装置的早期探索。"
+      },
+      { 
+        q: "张衡发明的计里鼓车的作用是？", 
+        options: ["测量时间", "计算里程", "地震监测", "运输物资"], 
+        answer: "B", 
+        explanation: "计里鼓车用来计算行驶里程。",
+        detail: "东汉科学家张衡发明的计里鼓车是一种利用齿轮传动系统自动记录车辆行驶距离的装置。每行驶一里（约500米），车上的木人就会敲一次鼓，是中国古代重要的机械自动化发明。"
+      },
+      { 
+        q: "诸葛亮发明的木牛流马用于？", 
+        options: ["娱乐", "运输军粮", "作战", "计时"], 
+        answer: "B", 
+        explanation: "木牛流马用于运输军粮。",
+        detail: "三国时期蜀汉丞相诸葛亮发明的木牛流马是一种独特的运输工具，用于在崎岖山路上运送军粮。虽然具体结构已失传，但历史记载表明它具有一定的自动化特性，可视为古代运输机器人的雏形。"
+      },
+      { 
+        q: "1959年诞生的第一台工业机器人用于？", 
+        options: ["医疗", "汽车工业", "农业", "教育"], 
+        answer: "B", 
+        explanation: "第一台工业机器人最早用于汽车制造。",
+        detail: "1959年，由乔治·德沃尔和约瑟夫·英格伯格共同开发的Unimate机器人被安装在美国通用汽车公司的生产线上，用于处理高温压铸件，这是工业机器人首次在实际生产中应用，开启了自动化制造的新纪元。"
+      },
+      { 
+        q: "控制论的提出者是？", 
+        options: ["维纳", "阿西莫夫", "英格伯格", "德沃尔"], 
+        answer: "A", 
+        explanation: "维纳出版《控制论》，是自动化理论基础。",
+        detail: "诺伯特·维纳（Norbert Wiener）是美国数学家，他在1948年出版的《控制论》一书中首次系统阐述了控制论思想，研究动物和机器中的控制与通信问题，为现代自动化技术和机器人学奠定了理论基础。"
+      },
+      { 
+        q: "机器人足球比赛两大系列不包括？", 
+        options: ["RoboCup", "FIRA", "FIFA", "都不是"], 
+        answer: "C", 
+        explanation: "FIFA是足球世界杯，不是机器人足球赛。",
+        detail: "国际上主要的机器人足球赛事有两大系列：RoboCup（机器人世界杯）和FIRA（国际机器人足球协会）。FIFA是国际足联举办的真人足球世界杯，与机器人竞赛无关。"
+      },
+      { 
+        q: "恐怖谷理论提出者是？", 
+        options: ["森昌弘", "维纳", "阿西莫夫", "英格伯格"], 
+        answer: "A", 
+        explanation: "日本专家森昌弘提出恐怖谷理论。",
+        detail: "日本机器人专家森昌弘（Masahiro Mori）在1970年提出了\"恐怖谷\"（Uncanny Valley）理论，指出当机器人外观与人类相似度达到一定程度时，会引起人类的不适和恐惧感，这对人形机器人设计有重要影响。"
+      },
+      { 
+        q: "机器人三定律中，第一定律是？", 
+        options: ["不伤害人类", "服从命令", "保护自己", "自主判断"], 
+        answer: "A", 
+        explanation: "第一定律：机器人不能伤害人类。",
+        detail: "阿西莫夫提出的机器人三定律按优先级排序：第一定律——机器人不得伤害人类，或因不作为而使人类受到伤害；第二定律——机器人必须服从人类命令，除非与第一定律冲突；第三定律——机器人必须保护自身存在，除非与第一、第二定律冲突。"
+      },
+      { 
+        q: "下列哪项不是医用机器人特点？", 
+        options: ["允许错误动作", "非专业可用", "辅助医生", "可与人接触"], 
+        answer: "A", 
+        explanation: "医用机器人不允许错误动作，保证安全。",
+        detail: "医用机器人对安全性和可靠性要求极高，任何错误动作都可能导致严重后果。因此，它们必须经过严格测试和认证，具备多重安全保护机制，并能在紧急情况下立即停止工作。"
+      },
+      { 
+        q: "电机分为直流电机和？", 
+        options: ["交流电机", "气动电机", "液压电机", "手摇电机"], 
+        answer: "A", 
+        explanation: "电机主要分直流电机和交流电机。",
+        detail: "电机按电源类型主要分为直流电机（DC）和交流电机（AC）。直流电机调速方便、启动转矩大，常用于机器人关节；交流电机结构简单、维护方便，多用于工业固定设备。"
+      },
+      { 
+        q: "对电机的要求不包括？", 
+        options: ["体积小", "高速", "高精度", "越大越好"], 
+        answer: "D", 
+        explanation: "电机要求体积小、高速、高精度，不是越大越好。",
+        detail: "机器人用电机需要满足体积小、重量轻、响应快、控制精度高等要求，以便集成到紧凑的机械结构中并实现精确运动控制。电机性能取决于技术指标而非单纯尺寸大小。"
+      },
+      { 
+        q: "机器人感知环境依靠？", 
+        options: ["机械结构", "传感器", "控制器", "电源"], 
+        answer: "B", 
+        explanation: "传感器是机器人的\"感觉器官\"，感知外界信息。",
+        detail: "传感器使机器人能够获取环境信息，如距离、温度、光线、声音、力等。常见的机器人传感器包括摄像头、红外传感器、超声波传感器、陀螺仪、力传感器等，相当于人类的视觉、听觉、触觉等感官。"
+      },
+      { 
+        q: "下列哪项不是机器人的执行机构？", 
+        options: ["机械臂", "轮子", "马达", "电池"], 
+        answer: "D", 
+        explanation: "电池是电源，不是执行运动的机构。",
+        detail: "执行机构是机器人中直接产生运动或动作的部件，如机械臂、轮子、抓手等。马达是驱动执行机构的动力源，而电池仅为整个系统提供电能，不属于执行机构本身。"
+      },
+      { 
+        q: "自动控制机器的俗称是？", 
+        options: ["电脑", "机器人", "手机", "汽车"], 
+        answer: "B", 
+        explanation: "机器人就是自动控制机器的俗称。",
+        detail: "\"机器人\"一词源于捷克语\"robota\"（苦力），现指能够自动执行任务的机器装置。虽然电脑、手机也包含自动控制功能，但只有具备物理执行能力的自动化机器才被称为机器人。"
+      },
+      { 
+        q: "机器人是多学科综合产物，不包括？", 
+        options: ["机械", "电子", "计算机", "美术"], 
+        answer: "D", 
+        explanation: "机器人融合机械、电子、计算机、控制等，不包含美术。",
+        detail: "机器人技术是典型的交叉学科，涉及机械工程（结构设计）、电子工程（电路系统）、计算机科学（算法软件）、自动控制（反馈调节）等多个领域。虽然外观设计可能涉及美学，但美术并非核心技术组成部分。"
+      },
+      { 
+        q: "世界上第一台可编程机器人发明者是？", 
+        options: ["德沃尔", "英格伯格", "维纳", "恰佩克"], 
+        answer: "A", 
+        explanation: "德沃尔在1954年制造出第一台可编程机器人。",
+        detail: "乔治·德沃尔（George Devol）在1954年发明了世界上第一台可编程工业机器人，并获得了专利。他与约瑟夫·英格伯格合作成立了Unimation公司，将这项技术商业化，开创了工业机器人产业。"
+      },
+      { 
+        q: "家用机器人最早出现在哪一年？", 
+        options: ["1939", "1954", "1959", "1920"], 
+        answer: "A", 
+        explanation: "1939年美国推出第一台家用机器人。",
+        detail: "1939年纽约世界博览会上，西屋电气公司展出了名为Elektro的家用机器人，它能走路、说话、抽烟，虽然功能简单且需人工遥控，但被认为是最早的家用机器人原型。"
+      },
+      { 
+        q: "第一台移动机器人叫？", 
+        options: ["Shakey", "T-800", "瓦力", "大白"], 
+        answer: "A", 
+        explanation: "1966年第一台移动机器人Shakey诞生。",
+        detail: "Shakey是斯坦福研究所于1966年至1972年间开发的移动机器人，被认为是世界上第一台真正意义上的智能移动机器人。它能够感知环境、规划路径、执行任务，奠定了现代移动机器人技术的基础。"
+      },
+      { 
+        q: "下列哪项不是机器人的特点？", 
+        options: ["可替代危险作业", "精准", "不知疲倦", "完全自主思考"], 
+        answer: "D", 
+        explanation: "机器人不能完全自主思考，需人类编程控制。",
+        detail: "尽管现代机器人越来越智能化，但它们仍依赖于人类预先编写的程序和算法。机器人可以模拟某些人类思维过程，但不具备真正的意识、情感和创造性思维，无法完全脱离人类控制自主思考。"
+      },
+      { 
+        q: "下列哪项不属于电力驱动？", 
+        options: ["电池", "马达", "液压泵", "充电电源"], 
+        answer: "C", 
+        explanation: "液压泵属于液压驱动，不是电力驱动。",
+        detail: "电力驱动系统以电能为能源，通过电机转换为机械能；而液压驱动利用液体（通常是油）的压力传递动力，由液压泵提供压力源。两者是不同的驱动方式，各有优缺点和适用场景。"
+      },
+      { 
+        q: "机器人\"智能\"不包括？", 
+        options: ["记忆", "判断", "学习", "自己充电"], 
+        answer: "D", 
+        explanation: "智能包含记忆、判断、学习，自己充电不属于智能。",
+        detail: "机器人的智能主要体现在信息处理能力上，包括存储和回忆信息（记忆）、基于规则或数据做出决策（判断）、从经验中改进性能（学习）。自动充电只是预设的机械行为，不涉及高级认知功能。"
+      },
+      { 
+        q: "机器人\"机能\"指？", 
+        options: ["力气大小", "变通性与通用性", "速度快慢", "寿命长短"], 
+        answer: "B", 
+        explanation: "机能指机器人的通用性、变通性。",
+        detail: "机器人的机能评价其适应不同任务的能力，包括通用性（能否执行多种任务）和变通性（能否调整策略应对变化）。高机能的机器人可以灵活应用于不同场景，而不仅限于单一固定任务。"
+      },
+      { 
+        q: "机器人\"物理能\"不包括？", 
+        options: ["力", "速度", "可靠性", "颜值"], 
+        answer: "C", 
+        explanation: "物理能包含力、速度、可靠性，和颜值无关。",
+        detail: "机器人的物理能指其物理性能指标，包括输出力/扭矩、运动速度、定位精度、工作稳定性（可靠性）等。这些参数直接影响机器人执行物理任务的能力和效果，与外观设计无关。"
+      },
+      { 
+        q: "下列哪项不是简单机械？", 
+        options: ["杠杆", "滑轮", "电脑", "斜面"], 
+        answer: "C", 
+        explanation: "电脑是电子产品，不是简单机械。",
+        detail: "简单机械是基本的机械装置，包括杠杆、滑轮、轮轴、斜面、楔子和螺旋六种类型。它们通过改变力的大小或方向来简化工作。电脑是复杂的电子信息系统，不属于简单机械范畴。"
+      },
+      { 
+        q: "下列哪项是机器人必备？", 
+        options: ["外壳", "控制系统", "灯光", "声音"], 
+        answer: "B", 
+        explanation: "机器人必须有控制系统，其他不是必备。",
+        detail: "控制系统是机器人的核心，负责协调各部件工作。没有控制系统，机器人就只是一堆机械零件。外壳、灯光、声音等功能可根据具体应用需求添加，并非所有机器人都必须具备。"
+      },
+      { 
+        q: "下列哪项不是传动装置？", 
+        options: ["齿轮", "皮带", "链条", "电池"], 
+        answer: "D", 
+        explanation: "电池是电源，齿轮、皮带、链条才是传动装置。",
+        detail: "传动装置用于传递和转换动力，常见类型包括齿轮传动、皮带传动、链条传动、连杆机构等。电池是能量存储设备，为系统提供电能，不参与机械动力的传递过程。"
+      },
+      { 
+        q: "下列哪项属于自动工作？", 
+        options: ["手动螺丝刀", "电动螺丝刀", "扳手", "钳子"], 
+        answer: "B", 
+        explanation: "电动螺丝刀可自动工作，其他是纯手动工具。",
+        detail: "电动螺丝刀内置电机，通电后可自动旋转完成拧螺丝动作，属于简单的自动化工具。而手动螺丝刀、扳手、钳子等需要人力直接操作，不具备自动工作能力。"
+      },
+      { 
+        q: "机器人传感部分的作用是？", 
+        options: ["感知外界", "执行动作", "提供动力", "支撑结构"], 
+        answer: "A", 
+        explanation: "传感部分负责感知环境信息。",
+        detail: "传感部分相当于机器人的感官系统，通过各种传感器收集环境数据（如距离、温度、光线、声音等），并将这些信息转换为电信号传送给控制系统，使机器人能够\"了解\"周围环境。"
+      },
+      { 
+        q: "机器人控制部分的作用是？", 
+        options: ["发出指令", "运动", "感知", "供电"], 
+        answer: "A", 
+        explanation: "控制部分相当于大脑，发出指令",
+        detail: "控制部分是机器人的\"大脑\"，负责处理传感器数据、运行控制算法、做出决策并向执行机构发送指令。它协调机器人的所有活动，确保机器人按照预定目标完成任务。"
+      }
+    ];
+    
+    let currentQuestion = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let correctCount = 0;
+    let isSubmittedAll = false;
+    
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('options');
+    const explanationEl = document.getElementById('explanation');
+    const progressEl = document.getElementById('progress');
+    const submitBtn = document.getElementById('submitBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const answeredCountEl = document.getElementById('answeredCount');
+    const correctCountEl = document.getElementById('correctCount');
+    const accuracyEl = document.getElementById('accuracy');
+    const summaryCard = document.getElementById('summaryCard');
+    const totalTimeEl = document.getElementById('totalTime');
+    const finalCorrectEl = document.getElementById('finalCorrect');
+    const finalAccuracyEl = document.getElementById('finalAccuracy');
+    const submitAllBtn = document.getElementById('submitAllBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const restartFromSummary = document.getElementById('restartFromSummary');
+    const bottomNav = document.getElementById('bottomNav');
+    const navScroll = document.getElementById('navScroll');
+    const modalOverlay = document.getElementById('modalOverlay');
+    
+    function showModal(message) {
+      document.getElementById('modalMessage').textContent = message;
+      modalOverlay.classList.add('show');
+    }
+    
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+    }
+    
+    // 点击遮罩关闭
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+    
+    function updateStats() {
+      const answered = userAnswers.filter(a => a !== null).length;
+      answeredCountEl.textContent = answered;
+      correctCount = 0;
+      for (let i = 0; i < questions.length; i++) {
+        if (userAnswers[i] && userAnswers[i] === questions[i].answer) {
+          correctCount++;
+        }
+      }
+      correctCountEl.textContent = correctCount;
+      const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+      accuracyEl.textContent = accuracy;
+    }
+    
+    function renderQuestion() {
+      // ✅ 移除了 if (isSubmittedAll) return;
+      const q = questions[currentQuestion];
+      questionText.innerHTML = `<strong>${currentQuestion + 1}.</strong> ${q.q}`;
+      optionsContainer.innerHTML = '';
+      explanationEl.classList.remove('show');
+      explanationEl.innerHTML = '';
+      
+      const optionLabels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, index) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.dataset.index = index;
+        div.dataset.label = optionLabels[index];
+        div.textContent = `${optionLabels[index]}. ${opt}`;
+        
+        // 显示用户原答案（即使已提交）
+        if (userAnswers[currentQuestion] === optionLabels[index]) {
+          div.classList.add('selected');
+        }
+        
+        // ✅ 只有在未提交时才允许选择
+        if (!isSubmittedAll) {
+          div.addEventListener('click', () => {
+            document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            div.classList.add('selected');
+            userAnswers[currentQuestion] = optionLabels[index];
+          });
+        } else {
+          // 提交后禁止交互
+          div.style.pointerEvents = 'none';
+          div.style.opacity = '0.9';
+        }
+        
+        optionsContainer.appendChild(div);
+      });
+      
+      progressEl.textContent = `第 ${currentQuestion + 1} 题 / 共 ${questions.length} 题`;
+      
+      // 控制按钮状态
+      if (isSubmittedAll) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        submitBtn.disabled = true;
+      } else {
+        prevBtn.disabled = currentQuestion === 0;
+        nextBtn.disabled = false;
+        submitBtn.disabled = false;
+      }
+      
+      updateStats();
+      
+      // 如果已提交，立即显示该题解析
+      if (isSubmittedAll) {
+        showResultForIndex(currentQuestion);
+      }
+    }
+    
+    // ==================== 新增：独立显示某题解析 ====================
+    function showResultForIndex(index) {
+      const correctAnswer = questions[index].answer;
+      const userAnswer = userAnswers[index];
+      
+      // 清除旧状态
+      const allOptions = optionsContainer.querySelectorAll('.option');
+      allOptions.forEach(opt => {
+        opt.classList.remove('correct', 'incorrect');
+      });
+      
+      // 标记正确/错误
+      allOptions.forEach(opt => {
+        const label = opt.dataset.label;
+        if (label === correctAnswer) {
+          opt.classList.add('correct');
+        } else if (label === userAnswer && userAnswer !== correctAnswer) {
+          opt.classList.add('incorrect');
+        }
+      });
+      
+      // 构建解析内容
+      let explanationHTML = `
+        ${userAnswer === correctAnswer ? '✔正确！' : '❌错误！正确答案是 ' + correctAnswer}
+        <br><strong>解析：</strong>${questions[index].explanation}
+      `;
+      
+      if (questions[index].detail) {
+        explanationHTML += `<div class="extension"><strong>🔍 拓展知识：</strong>${questions[index].detail}</div>`;
+      }
+      
+      explanationEl.innerHTML = explanationHTML;
+      explanationEl.classList.add('show');
+    }
+    
+    function showResult(forCurrentOnly = true) {
+      if (forCurrentOnly) {
+        showResultForIndex(currentQuestion);
+      }
+    }
+    
+    function finishQuiz() {
+      totalTime = Date.now() - startTime;
+      const totalSeconds = Math.floor(totalTime / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      totalTimeEl.textContent = `${minutes}分${seconds}秒`;
+      finalCorrectEl.textContent = correctCount;
+      finalAccuracyEl.textContent = Math.round((correctCount / questions.length) * 100);
+      summaryCard.classList.add('show');
+    }
+    
+    function renderBottomNav() {
+      navScroll.innerHTML = '';
+      
+      for (let i = 0; i < questions.length; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i + 1;
+        btn.className = 'nav-btn';
+        btn.dataset.index = i;
+        
+        const userAns = userAnswers[i];
+        const correctAns = questions[i].answer;
+        
+        if (userAns === null) {
+          btn.style.backgroundColor = '#cbd5e1';
+          btn.title = `第${i+1}题：未作答`;
+        } else if (userAns === correctAns) {
+          btn.style.backgroundColor = '#22c55e';
+          btn.title = `第${i+1}题：回答正确`;
+        } else {
+          btn.style.backgroundColor = '#ef4444';
+          btn.title = `第${i+1}题：回答错误`;
+        }
+        
+        btn.addEventListener('click', () => {
+          currentQuestion = i;
+          renderQuestion(); // 现在可以正常渲染！
+          
+          // 滚动到题目
+          setTimeout(() => {
+            document.querySelector('.question-container')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }, 100);
+        });
+        
+        navScroll.appendChild(btn);
+      }
+      
+      bottomNav.style.display = 'block';
+    }
+    
+    function submitAllAnswers() {
+      isSubmittedAll = true;
+      currentQuestion = questions.length - 1;
+      renderQuestion();
+      finishQuiz();
+      renderBottomNav();
+    }
+    
+    function restartQuiz() {
+      userAnswers = new Array(questions.length).fill(null);
+      currentQuestion = 0;
+      correctCount = 0;
+      isSubmittedAll = false;
+      startTime = Date.now();
+      summaryCard.classList.remove('show');
+      bottomNav.style.display = 'none';
+      renderQuestion();
+    }
+    
+    submitBtn.addEventListener('click', () => {
+      if (userAnswers[currentQuestion]) {
+        showResult(true);
+      } else {
+        showModal('请先选择一个答案！');
+      }
+    });
+    
+    prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 0 && !isSubmittedAll) {
+        currentQuestion--;
+        renderQuestion();
+        submitBtn.disabled = false;
+        summaryCard.classList.remove('show');
+      }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      if (isSubmittedAll) return;
+      
+      if (userAnswers[currentQuestion] === null) {
+        showModal('请先选择答案再进入下一题！');
+        return;
+      }
+      
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+        submitBtn.disabled = false;
+        summaryCard.classList.remove('show');
+      }
+    });
+    
+    submitAllBtn.addEventListener('click', submitAllAnswers);
+    restartBtn.addEventListener('click', restartQuiz);
+    restartFromSummary.addEventListener('click', restartQuiz);
+    
+    // 初始化
+    renderQuestion();
+  </script>
+</body>
+</html>
