@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>机器人等级考试 · 凸轮/连杆/曲柄机构专项 60题</title>  
+<style>  
+* {  
+margin: 0;  
+padding: 0;  
+box-sizing: border-box;  
+font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;  
+}  
+body {  
+background-color: #f9fbfd;  
+color: #333;  
+line-height: 1.6;  
+padding: 16px;  
+max-width: 800px;  
+margin: 0 auto;  
+padding-bottom: 80px; 
+}  
+.logo-container {  
+text-align: center;  
+margin: 20px 0 24px;  
+padding: 10px;  
+background: #eef7ff;  
+border-radius: 14px;  
+}  
+.logo-container img {  
+max-width: 260px;  
+height: auto;  
+border-radius: 10px;  
+box-shadow: 0 4px 12px rgba(0,0,0,0.12);  
+transition: transform 0.3s ease;  
+}  
+.logo-container img:hover {  
+transform: scale(1.03);  
+}  
+.header {  
+text-align: center;  
+margin: 0 0 25px;  
+padding: 12px;  
+background: #e3f2fd;  
+border-radius: 12px;  
+box-shadow: 0 2px 6px rgba(0,0,0,0.08);  
+}  
+h1 {  
+font-size: 22px;  
+color: #1976d2;  
+margin-bottom: 8px;  
+}  
+.progress {  
+font-size: 16px;  
+color: #555;  
+margin-top: 6px;  
+}  
+.stats-bar {  
+display: flex;  
+justify-content: space-around;  
+background: #dbeafe;  
+padding: 10px 0;  
+border-radius: 10px;  
+margin-bottom: 16px;  
+font-size: 15px;  
+color: #1e40af;  
+font-weight: 500;  
+}  
+.global-controls {  
+text-align: center;  
+margin-bottom: 16px;  
+}  
+.global-controls button {  
+padding: 10px 20px;  
+border: none;  
+border-radius: 8px;  
+font-weight: bold;  
+cursor: pointer;  
+margin: 0 6px;  
+font-size: 16px;  
+transition: background 0.2s;  
+}  
+#submitAllBtn {  
+background: #10b981;  
+color: white;  
+}  
+#submitAllBtn:hover {  
+background: #059669;  
+}  
+#restartBtn {  
+background: #f59e0b;  
+color: white;  
+}  
+#restartBtn:hover {  
+background: #d97706;  
+}  
+.question-container {  
+background: white;  
+border-radius: 14px;  
+padding: 24px;  
+margin-bottom: 20px;  
+box-shadow: 0 3px 10px rgba(0,0,0,0.07);  
+}  
+.question-text {  
+font-size: 18px;  
+margin-bottom: 20px;  
+font-weight: 500;  
+color: #2c3e50;  
+}  
+.options {  
+display: flex;  
+flex-direction: column;  
+gap: 14px;  
+}  
+.option {  
+padding: 14px 18px;  
+background: #f5f9ff;  
+border: 2px solid #e0e7ff;  
+border-radius: 10px;  
+cursor: pointer;  
+transition: all 0.2s;  
+font-size: 17px;  
+}  
+.option:hover {  
+background: #dbeafe;  
+border-color: #93c5fd;  
+}  
+.option.selected {  
+background: #dbeafe;  
+border-color: #3b82f6;  
+font-weight: bold;  
+}  
+.option.correct {  
+background: #dcfce7;  
+border-color: #22c55e;  
+}  
+.option.incorrect {  
+background: #fee2e2;  
+border-color: #ef4444;  
+}  
+.controls {  
+display: flex;  
+justify-content: space-between;  
+gap: 12px;  
+margin-top: 20px;  
+}  
+button {  
+flex: 1;  
+padding: 14px;  
+border: none;  
+border-radius: 10px;  
+font-size: 17px;  
+font-weight: 600;  
+cursor: pointer;  
+transition: background 0.2s;  
+}  
+#submitBtn {  
+background: #3b82f6;  
+color: white;  
+}  
+#submitBtn:hover {  
+background: #2563eb;  
+}  
+#submitBtn:disabled {  
+background: #cbd5e1;  
+cursor: not-allowed;  
+}  
+#prevBtn, #nextBtn {  
+background: #e2e8f0;  
+color: #4a5568;  
+}  
+#prevBtn:hover, #nextBtn:hover {  
+background: #cbd5e1;  
+}  
+.explanation {  
+margin-top: 20px;  
+padding: 16px;  
+background: #f0f9ff;  
+border-left: 4px solid #0ea5e9;  
+border-radius: 0 8px 8px 0;  
+font-size: 16px;  
+color: #1e40af;  
+display: none;  
+}  
+.explanation.show {  
+display: block;  
+}  
+.extension {  
+margin-top: 12px;  
+padding-top: 12px;  
+border-top: 1px dashed #bae6fd;  
+font-size: 15px;  
+color: #0c4a6e;  
+}  
+.summary-card {  
+background: white;  
+border-radius: 14px;  
+padding: 24px;  
+margin-top: 20px;  
+box-shadow: 0 3px 10px rgba(0,0,0,0.07);  
+text-align: center;  
+display: none;  
+}  
+.summary-card.show {  
+display: block;  
+}  
+.summary-card h2 {  
+color: #166534;  margin-bottom: 16px;  font-size: 22px;  
+}  
+.summary-stats {  
+font-size: 18px;  line-height: 2;  color: #334155;  
+}  
+.footer {  
+text-align: center;  margin-top: 25px;  color: #718096;  font-size: 14px;  
+}  
+.bottom-nav {  
+position: fixed;  bottom: 0;  left: 0;  right: 0;  
+background: white;  border-top: 1px solid #e2e8f0;  
+padding: 8px 0;  z-index: 1000;  display: none; 
+}  
+.nav-title {  
+font-size: 14px;  color: #4b5563;  text-align: center;  margin-bottom: 6px;  
+}  
+.nav-scroll {  
+display: flex;  overflow-x: auto;  padding: 0 12px;  gap: 8px;  
+-webkit-overflow-scrolling: touch;  scrollbar-width: none; 
+}  
+.nav-scroll::-webkit-scrollbar { display: none; } 
+.nav-btn {  
+width: 32px;  height: 32px;  border-radius: 50%;  border: none;  
+font-size: 12px;  cursor: pointer;  display: flex;  
+align-items: center;  justify-content: center;  color: white;  
+font-weight: bold;  flex-shrink: 0;  box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
+}  
+.modal-overlay {  
+position: fixed;  top: 0;  left: 0;  right: 0;  bottom: 0;  
+background: rgba(0,0,0,0.5);  display: flex;  align-items: center;  
+justify-content: center;  z-index: 2000;  opacity: 0;  visibility: hidden;  
+transition: all 0.3s ease;  
+}  
+.modal-overlay.show {  
+opacity: 1;  visibility: visible;  
+}  
+.modal-content {  
+background: white;  border-radius: 12px;  padding: 24px;  
+max-width: 90%;  width: 300px;  text-align: center;  
+box-shadow: 0 10px 25px rgba(0,0,0,0.2);  transform: translateY(20px);  
+transition: transform 0.3s ease;  
+}  
+.modal-overlay.show .modal-content {  
+transform: translateY(0);  
+}  
+.modal-content h3 {  
+color: #ef4444;  margin-bottom: 12px;  font-size: 18px;  
+}  
+@media (max-width: 480px) {  
+body { padding-bottom: 80px; }  
+.question-text { font-size: 17px; }  
+.option { font-size: 16px; padding: 12px 16px; }  
+button { padding: 12px; font-size: 16px; }  
+.stats-bar { flex-direction: column; gap: 6px; text-align: center; }  
+.global-controls button { display: block; width: 90%; margin: 6px auto; }  
+}  
+</style>  
+</head>  
+<body>  
+
+<div class="logo-container">  
+<img src="https://api.zcat.cn/udata/724044/png/a0dcc489dc23aaea52bb301214a4b32e.png" alt="后浪科创">  
+</div>  
+
+<div class="header">  
+<h1>全国青少年机器人技术等级二级</h1>  
+<div>凸轮/连杆/曲柄机构 · 专项练习 60题</div>  
+<div class="progress" id="progress">第 1 题 / 共 60 题</div>  
+</div>  
+
+<div class="stats-bar" id="statsBar">  
+<div>已答：<span id="answeredCount">0</span>/60</div>  
+<div>正确：<span id="correctCount">0</span> 题</div>  
+<div>正确率：<span id="accuracy">0</span>%</div>  
+</div>  
+
+<div class="global-controls">  
+<button id="submitAllBtn">整卷提交</button>  
+<button id="restartBtn">重新答题</button>  
+</div>  
+
+<div class="bottom-nav" id="bottomNav">  
+<div class="nav-title">📌 点击题目编号跳转</div>  
+<div class="nav-scroll" id="navScroll"></div>  
+</div>  
+
+<div class="modal-overlay" id="modalOverlay">  
+<div class="modal-content">  
+<h3 id="modalMessage">请先选择一个答案！</h3>  
+<button onclick="closeModal()" style="margin-top:12px;padding:8px 16px;background:#3b82f6;color:white;border:none;border-radius:6px;cursor:pointer;">确定</button>  
+</div>  
+</div>  
+
+<div class="question-container">  
+<div class="question-text" id="questionText"></div>  
+<div class="options" id="options"></div>  
+<div class="explanation" id="explanation"></div>  
+<div class="controls">  
+<button id="prevBtn">上一题</button>  
+<button id="submitBtn">提交本题答案</button>  
+<button id="nextBtn">下一题</button>  
+</div>  
+</div>  
+
+<div class="summary-card" id="summaryCard">  
+<h2>🎉 答题完成！</h2>  
+<div class="summary-stats">  
+<div>总用时：<span id="totalTime">--</span></div>  
+<div>答对题目：<span id="finalCorrect">--</span> / 60</div>  
+<div>正确率：<span id="finalAccuracy">--</span>%</div>  
+</div>  
+<div style="margin-top:20px;">  
+<button id="restartFromSummary" style="background:#3b82f6;color:white;padding:12px 24px;border:none;border-radius:8px;font-weight:bold;">再做一遍</button>  
+</div>  
+</div>  
+
+<div class="footer">  
+后浪科创 · 奇思妙想·创未来 | 支持手机答题 · 仅供学员考级训练使用，严禁传播  
+</div>  
+
+<script>  
+let startTime = Date.now();  
+let totalTime = 0;  
+const questions = [  
+// 凸轮机构（20题）
+{ q: "凸轮机构的三个基本构件不包括（）", options: ["凸轮", "从动件", "机架", "齿轮"], answer: "D", explanation: "凸轮机构由凸轮、从动件和机架组成，没有齿轮。", detail: "凸轮是主动件，从动件被动跟随其轮廓运动，机架是支撑基座。齿轮通常用于另一种传动机构中。" },
+{ q: "凸轮机构属于（）", options: ["高副机构", "低副机构", "转动副", "移动副"], answer: "A", explanation: "点或线接触的机构叫高副，凸轮是典型的高副机构。", detail: "高副因接触面积小，压强大，容易磨损；但在凸轮机构中，这种点/线接触能实现非常复杂的运动规律。" },
+{ q: "凸轮机构中，一般作主动件、做匀速圆周运动的是（）", options: ["凸轮", "从动件", "机架", "轴承"], answer: "A", explanation: "凸轮主动旋转，带动从动件运动。", detail: "凸轮通常由电机驱动，做等速旋转，它的轮廓曲线决定了从动件按预定规律运动。" },
+{ q: "从动件运动的最大距离叫做（）", options: ["路程", "行程", "位移", "距离"], answer: "B", explanation: "从动件运动的最远距离称为行程。", detail: "行程（Stroke）是机械设计中的重要参数，比如发动机活塞从最底端到最顶端的距离也叫行程。" },
+{ q: "最基本、应用最广的凸轮是（）", options: ["盘形凸轮", "移动凸轮", "圆柱凸轮", "斜面凸轮"], answer: "A", explanation: "盘形凸轮结构最简单，应用最广泛。", detail: "盘形凸轮绕固定轴线转动，由于其加工方便、结构紧凑，被大量应用于各类自动化机械中。" },
+{ q: "凸轮相对机架做直线移动的是（）", options: ["盘形凸轮", "移动凸轮", "圆柱凸轮", "空间凸轮"], answer: "B", explanation: "移动凸轮是沿直线平移，而非旋转。", detail: "移动凸轮常被看作是一段直线展开的凸轮，多用于仿形加工或需要直线推力的特殊场合。" },
+{ q: "属于空间凸轮机构，绕中心轴转动的是（）", options: ["盘形凸轮", "移动凸轮", "圆柱凸轮", "齿轮凸轮"], answer: "C", explanation: "圆柱凸轮绕轴旋转，属于空间凸轮。", detail: "圆柱凸轮表面的曲线槽驱动从动件在空间内三维运动，常用于自动机床上的刀架进给机构。" },
+{ q: "结构最简单、但摩擦大、易磨损的从动件是（）", options: ["尖顶从动件", "滚子从动件", "平底从动件", "圆顶从动件"], answer: "A", explanation: "尖顶从动件结构简单，但摩擦大，易磨损。", detail: "由于尖顶与凸轮轮廓是极小的点接触，接触应力极大，一般只在传力很小、速度很低的精密仪器中使用。" },
+{ q: "将滑动摩擦变为滚动摩擦，磨损小、应用最广的从动件是（）", options: ["尖顶", "滚子", "平底", "斜面"], answer: "B", explanation: "滚子从动件采用滚动摩擦，磨损小，最常用。", detail: "滚子从动件的端部装有可自由转动的滚轮，将与凸轮的滑动摩擦转化为滚动摩擦，大大提高了机构的寿命。" },
+{ q: "润滑好、受力平稳、适合高速的从动件是（）", options: ["尖顶", "滚子", "平底", "尖头"], answer: "C", explanation: "平底从动件受力平稳，润滑效果好，适合高速运动。", detail: "平底与凸轮之间易形成油膜，润滑良好，且受侧向推力小，广泛应用于高速内燃机的气门机构。" },
+{ q: "做往复直线运动，轨迹是直线的从动件是（）", options: ["直动从动件", "摆动从动件", "转动从动件", "间歇从动件"], answer: "A", explanation: "直动从动件沿直线往复运动。", detail: "直动从动件被限制在导轨中，只能沿着一条直线做上下的推拉运动。" },
+{ q: "做往复摆动，轨迹是圆弧的从动件是（）", options: ["直动", "摆动", "移动", "滑动"], answer: "B", explanation: "摆动从动件像钟摆一样来回运动。", detail: "摆动从动件的一端铰接在机架上，另一端在凸轮推动下做往复的圆弧摆动。" },
+{ q: "利用重力、弹力让凸轮与从动件始终接触的方式叫（）", options: ["力锁合", "几何锁合", "机械锁合", "自动锁合"], answer: "A", explanation: "靠重力或弹簧压紧，称为力锁合。", detail: "力锁合需要外部施加持续的力（如拉簧或压簧），但在极高速运转时可能因惯性导致从动件脱离凸轮（飞脱现象）。" },
+{ q: "利用凹槽、特殊形状保证接触的叫（）", options: ["力锁合", "几何锁合", "摩擦锁合", "自动锁合"], answer: "B", explanation: "用形状卡住，称为几何锁合。", detail: "几何锁合不依赖弹簧等外力，而是利用机构自身的几何形状（如沟槽）强制从动件跟随运动，非常适合高速重载。" },
+{ q: "槽凸轮机构属于（）", options: ["力锁合", "几何锁合", "弹簧锁合", "重力锁合"], answer: "B", explanation: "槽凸轮依靠凹槽实现几何锁合。", detail: "滚子被嵌在凸轮的凹槽内，正反方向的运动都受到凹槽侧壁的强制约束，无需弹簧复位。" },
+{ q: "凸轮机构的优点是（）", options: ["能精准实现预定运动", "不易磨损", "加工简单", "行程很大"], answer: "A", explanation: "凸轮机构最大优点是动作精准，能实现设计的运动规律。", detail: "只需设计合适的凸轮轮廓曲线，工程师就能让从动件实现任意复杂的停顿、加速、减速等运动组合。" },
+{ q: "凸轮机构的缺点是（）", options: ["点/线接触易磨损", "传动不准", "结构复杂", "不能控制动作"], answer: "A", explanation: "高副接触，压强大，容易磨损。", detail: "由于接触面积小，高副在传递大动力时极易发生疲劳磨损，因此凸轮多用于控制机构而非重载动力传输系统。" },
+{ q: "决定从动件运动规律的是（）", options: ["凸轮轮廓曲线", "凸轮大小", "颜色", "材料"], answer: "A", explanation: "轮廓曲线决定从动件的运动方式。", detail: "通过数学方程或反转法来设计凸轮的轮廓曲线，可以精确控制从动件在每一时刻的位移、速度和加速度。" },
+{ q: "内燃机、印刷机用到的核心机构是（）", options: ["凸轮机构", "杠杆机构", "斜面机构", "轮轴"], answer: "A", explanation: "自动机械中大量应用凸轮机构。", detail: "例如汽车发动机中的凸轮轴，负责在最精确的时间点顶开或关闭气门，以配合气缸的进气和排气。" },
+{ q: "凸轮机构中，从动件不能实现的运动是（）", options: ["连续自由转动", "直线往复", "往复摆动", "间歇运动"], answer: "A", explanation: "从动件只能往复运动或摆动，不能连续自由转动。", detail: "凸轮推动从动件运动到一个极限位置后，必须回程，因此从动件无法像齿轮那样实现整周的连续旋转。" },
+
+// 连杆机构（20题）
+{ q: "连杆机构是用____连接多个构件组成的（）", options: ["低副", "高副", "点接触", "线接触"], answer: "A", explanation: "连杆机构采用面接触的低副。", detail: "低副分为转动副（铰链）和移动副（滑块），因为是面接触，所以能够承受较大的载荷且耐磨损。" },
+{ q: "所有构件在平行平面内运动的是（）", options: ["平面连杆机构", "空间连杆机构", "凸轮机构", "齿轮机构"], answer: "A", explanation: "二级考试只考平面连杆机构。", detail: "如果机构中所有构件的运动平面都相互平行，就称为平面机构。生活中绝大多数连杆机械都是平面连杆机构。" },
+{ q: "低副机构的接触方式是（）", options: ["面接触", "点接触", "线接触", "点线接触"], answer: "A", explanation: "低副是面接触，压强小，耐磨损。", detail: "面接触使得受力分散，因此低副机构寿命长，适合传递较大的动力，这也是连杆机构被广泛使用的原因之一。" },
+{ q: "连杆机构的优点是（）", options: ["耐磨损、易加工", "传动精准", "无间隙", "适合复杂运动"], answer: "A", explanation: "连杆机构耐磨，制造简单。", detail: "连杆的运动副大多是圆柱面或平面的低副，加工制造相对容易，且磨损后仍能保持较好的接触贴合。" },
+{ q: "连杆机构的缺点是（）", options: ["间隙多、累积误差", "易磨损", "加工难", "结构复杂"], answer: "A", explanation: "关节多，误差容易累积。", detail: "连杆机构构件多，铰链处不可避免存在间隙，这会导致运动精度的降低，且无法实现极其精确的复杂运动规律。" },
+{ q: "下列不属于平面四杆机构的是（）", options: ["曲柄摇杆", "双曲柄", "双摇杆", "凸轮机构"], answer: "D", explanation: "凸轮机构不属于连杆机构。", detail: "平面四杆机构的三个基本型是：曲柄摇杆机构、双曲柄机构、双摇杆机构。凸轮机构属于高副机构。" },
+{ q: "平面四杆机构中，能做整周圆周运动的杆叫（）", options: ["曲柄", "摇杆", "连杆", "机架"], answer: "A", explanation: "能转圈的杆称为曲柄。", detail: "曲柄通常作为原动件（例如直接连接电机），它能围绕机架上的固定铰链做360度的完整旋转运动。" },
+{ q: "只能来回摆动、不能转圈的杆叫（）", options: ["曲柄", "摇杆", "连杆", "机架"], answer: "B", explanation: "只能摆动的杆叫摇杆。", detail: "摇杆的运动范围小于360度，就像钟摆或汽车雨刮器一样，只能在一个设定的角度范围内来回运动。" },
+{ q: "固定不动、作为支撑的杆叫（）", options: ["曲柄", "摇杆", "连杆", "机架"], answer: "D", explanation: "机架是固定的支撑件。", detail: "机架是机构相对静止的参考基准，所有的活动构件都在机架的基础上进行运动。" },
+{ q: "连接曲柄和摇杆、不固定的杆叫（）", options: ["曲柄", "摇杆", "连杆", "机架"], answer: "C", explanation: "中间连接的活动杆叫连杆。", detail: "连杆不与机架直接连接，它在空间中做复杂的平面运动（一边平移一边转动），起到传递运动和动力的桥梁作用。" },
+{ q: "下列哪个是连杆机构的应用（）", options: ["缝纫机", "内燃机气门", "自行车链条", "电机"], answer: "A", explanation: "缝纫机是典型的连杆机构应用。", detail: "老式缝纫机的踏板机构、针杆上下运动机构等，都是利用平面连杆机构将运动转化为所需的特定形式。" },
+{ q: "平面连杆机构的运动副主要是（）", options: ["转动副和移动副", "凸轮副", "齿轮副", "摩擦副"], answer: "A", explanation: "连杆机构主要由转动副和移动副组成。", detail: "转动副（圆柱铰链）允许构件相对旋转，移动副（滑块导轨）允许构件相对平移，这两种低副构成了所有平面连杆机构的基础。" },
+{ q: "关于低副说法正确的是（）", options: ["面接触、耐磨", "点接触、易磨损", "线接触、易磨损", "高精度"], answer: "A", explanation: "低副采用面接触，受力稳定，耐磨损。", detail: "由于是面与面接触，压力分布均匀，润滑油容易存留，因此低副在承受重载时表现极佳。" },
+{ q: "关于高副说法正确的是（）", options: ["点/线接触、易磨损", "面接触、耐磨", "精度低", "属于连杆机构"], answer: "A", explanation: "高副点/线接触，易磨损，不用于连杆机构。", detail: "高副常见于齿轮的齿面接触和凸轮与从动件的接触，其主要优势是能传递复杂的运动规律，但承载大动力时极易磨损。" },
+{ q: "多关节连杆机构会出现（）", options: ["运动累积误差", "传动更准", "加工更易", "结构更稳"], answer: "A", explanation: "关节越多，误差越大。", detail: "每个转动副铰链都存在一定的制造公差和配合间隙，多个关节串联在一起会使得机构末端的运动误差被不断放大。" },
+{ q: "连杆机构适合传递（）", options: ["较大动力", "精密运动", "高速运动", "间歇运动"], answer: "A", explanation: "连杆机构结实，适合传递大动力。", detail: "重型工程机械（如挖掘机的机械臂）、锻压设备（如冲床）等，都充分利用了连杆机构面接触承载力极大的特点。" },
+{ q: "下列不属于连杆机构特点的是（）", options: ["可实现任意精确运动", "低副耐磨", "易加工", "有间隙"], answer: "A", explanation: "连杆机构不能实现像凸轮那样精确的运动。", detail: "连杆机构的运动规律主要由杆长比例决定，受到几何限制，无法像凸轮那样自由设计出任意复杂的运动曲线。" },
+{ q: "起重机吊臂运用的是（）", options: ["连杆机构", "凸轮机构", "棘轮机构", "斜面"], answer: "A", explanation: "吊臂是典型的连杆结构。", detail: "通过液压缸（作为移动副或改变杆长）驱动连杆，起重机的吊臂可以实现重物的平稳升降和变幅移动。" },
+{ q: "汽车雨刮器运用的是（）", options: ["连杆机构", "凸轮机构", "齿轮机构", "皮带传动"], answer: "A", explanation: "雨刮器来回摆动，靠连杆机构实现。", detail: "雨刮器通常采用曲柄摇杆机构或双摇杆机构，将雨刮电机的整周圆周运动转化为雨刮片的往复扇形摆动。" },
+{ q: "连杆机构主要传递（）", options: ["往复运动、摆动", "连续高速转动", "间歇运动", "单向运动"], answer: "A", explanation: "连杆机构主要负责推、拉、摆动。", detail: "除了传递动力，连杆机构最核心的作用就是实现运动形式的转换，比如转圈变摆动，或者转圈变直线。" },
+
+// 曲柄机构（20题）
+{ q: "曲柄滑块机构可以实现互相转换的是（）", options: ["圆周运动 ↔ 直线往复运动", "摆动 ↔ 间歇", "高速 ↔ 低速", "顺时针 ↔ 逆时针"], answer: "A", explanation: "曲柄滑块机构的核心功能是圆周运动和直线往复运动的相互转换。", detail: "当曲柄主动时，圆周变直线（如冲床）；当滑块主动时，直线变圆周（如内燃机）。" },
+{ q: "曲柄做圆周运动，滑块做直线往复的机构是（）", options: ["曲柄滑块", "凸轮机构", "棘轮机构", "槽轮机构"], answer: "A", explanation: "曲柄滑块机构将转圈运动变为直线运动。", detail: "空气压缩机、往复式水泵都是利用曲柄驱动滑块（活塞）进行抽气或抽水的经典应用。" },
+{ q: "具有一个曲柄、一个摇杆的四杆机构是（）", options: ["曲柄摇杆", "双曲柄", "双摇杆", "滑块机构"], answer: "A", explanation: "一个转圈，一个摆动，叫曲柄摇杆机构。", detail: "它是最常见的四杆机构。原动件转圈，从动件像扇子一样摆动，常用于缝纫机的踏板或雷达天线的俯仰机构。" },
+{ q: "曲柄摇杆机构中，曲柄主动时，将圆周运动变为（）", options: ["往复摆动", "直线运动", "间歇运动", "连续转动"], answer: "A", explanation: "曲柄转圈，摇杆变为来回摆动。", detail: "例如剪草机的刀片驱动、老式牛头刨床的进给机构，都是将电机的旋转转化为工具的摆动。" },
+{ q: "两个曲柄都能做整周圆周运动的机构是（）", options: ["双曲柄机构", "曲柄摇杆", "双摇杆", "曲柄滑块"], answer: "A", explanation: "两根杆都能转圈，叫双曲柄机构。", detail: "在双曲柄机构中，最短杆被固定为机架。两个与机架相连的杆都可以做360度的完整旋转。" },
+{ q: "两曲柄等长、连杆与机架等长、同向转动的是（）", options: ["平行双曲柄", "反向双曲柄", "双摇杆", "曲柄滑块"], answer: "A", explanation: "平行四边形结构，两曲柄同向转动。", detail: "由于结构是平行四边形，连杆在运动过程中始终保持平移状态，老式火车机车动轮的联动杆就是利用了这个原理。" },
+{ q: "平行双曲柄机构运动特点是（）", options: ["主动、从动曲柄转速相同、同向", "速度相反", "速度不同", "间歇运动"], answer: "A", explanation: "平行双曲柄运动时，两曲柄同方向、同速度。", detail: "因此它常用来实现多轴的同步旋转，比如蒸汽机车的多个驱动轮通过耦合杆连接，实现同步发力。" },
+{ q: "两曲柄等长、转向相反的机构是（）", options: ["反向双曲柄", "平行双曲柄", "双摇杆", "曲柄摇杆"], answer: "A", explanation: "反向双曲柄两杆转向相反。", detail: "这种机构呈反平行四边形（交叉状态），汽车车门的一种特殊开启机构或某些特殊搅拌器会用到这种反向同步运动。" },
+{ q: "两连架杆都是摇杆，只能摆动的机构是（）", options: ["双摇杆", "双曲柄", "曲柄摇杆", "曲柄滑块"], answer: "A", explanation: "两根都是摇杆，只能摆动，不能转圈。", detail: "在双摇杆机构中，最短的杆作连杆。起重机的吊臂变幅机构、汽车前轮的转向机构（阿克曼转向）都采用了双摇杆设计。" },
+{ q: "生活中把脚的往复运动变成齿轮圆周运动的是（）", options: ["自行车", "电风扇", "电灯", "滑轮"], answer: "A", explanation: "自行车脚蹬就是曲柄机构的应用。", detail: "人的腿部相当于摇杆或滑块，脚踏板和牙盘相当于曲柄，通过踩踏将直线/摆动转化为车轮的连续旋转。" },
+{ q: "曲柄滑块机构中，滑块主动时，将直线运动变为（）", options: ["圆周运动", "摆动", "间歇运动", "静止"], answer: "A", explanation: "滑块来回运动带动曲柄转圈。", detail: "这被称为曲柄滑块机构的“逆向应用”。内燃机的活塞做直线运动，推动连杆使曲轴旋转输出动力。" },
+{ q: "汽车发动机活塞带动曲轴转动，用的是（）", options: ["曲柄滑块机构", "凸轮机构", "棘轮机构", "连杆机构"], answer: "A", explanation: "活塞（滑块）带动曲轴（曲柄）转动。", detail: "燃气爆炸产生的巨大压力推动活塞做直线往复运动，滑块通过连杆将力传给曲轴，转化为扭矩输出驱动汽车。" },
+{ q: "曲柄机构属于（）", options: ["平面四杆机构", "高副机构", "凸轮机构", "间歇机构"], answer: "A", explanation: "曲柄机构是四杆机构的一种。", detail: "四杆机构通过改变各杆件的相对长度关系，可以演化出曲柄摇杆、双曲柄、曲柄滑块等多种机构形式。" },
+{ q: "能把等速圆周运动变为变速圆周运动的是（）", options: ["双曲柄机构", "曲柄摇杆", "双摇杆", "凸轮机构"], answer: "A", explanation: "双曲柄机构可实现变速运动。", detail: "除了平行双曲柄，普通的双曲柄机构在主动件匀速旋转时，从动曲柄的转速是周期性忽快忽慢变化的。" },
+{ q: "惯性筛运用的是（）", options: ["双曲柄机构", "双摇杆", "曲柄滑块", "棘轮"], answer: "A", explanation: "惯性筛采用双曲柄机构实现变速运动。", detail: "利用从动件速度快慢交替变化的特点，让连杆上的筛网产生剧烈抖动和抛掷效果，从而有效分离物料。" },
+{ q: "门的联动伸缩装置常用（）", options: ["平行双曲柄", "反向双曲柄", "双摇杆", "凸轮"], answer: "A", explanation: "平行双曲柄适合联动门，保持平行。", detail: "公交车车门、天平的托盘机构都使用了平行四边形法则，保证连杆在运动中始终保持竖直或水平的姿态不变。" },
+{ q: "起重机、翻斗车常用（）", options: ["双摇杆机构", "双曲柄", "凸轮", "槽轮"], answer: "A", explanation: "双摇杆机构适合支撑和摆动。", detail: "这类重型机械不需要做完整的圆周旋转，只需要在一定角度内大范围摆动并支撑重物，双摇杆是最稳定的选择。" },
+{ q: "曲柄滑块机构中，圆周运动变往复运动时，主动件是（）", options: ["曲柄", "滑块", "连杆", "机架"], answer: "A", explanation: "曲柄主动转动，滑块被动往复运动。", detail: "在冲床、缝纫机的机针驱动中，电机带动曲柄转动，进而通过连杆推动滑块进行工作。" },
+{ q: "下列不属于曲柄机构应用的是（）", options: ["自行车脚蹬", "发动机活塞", "雨刮器", "自行车刹车"], answer: "D", explanation: "自行车刹车属于摩擦机构，不是曲柄机构。", detail: "自行车刹车是利用手柄拉动线缆，迫使刹车皮夹紧车轮产生摩擦力，不涉及圆周和直线/摆动的周期性运动转换。" },
+{ q: "曲柄机构的核心作用是（）", options: ["圆周与往复运动互相转换", "单向防倒转", "精准控制行程", "增大摩擦力"], answer: "A", explanation: "曲柄机构的核心是圆周运动和往复运动的相互转换。", detail: "这一核心功能几乎构成了现代机械工业的基础，无论是早期的蒸汽机时代还是现代内燃机，都离不开这一转换原理。" }
+];  
+
+let currentQuestion = 0;  
+let userAnswers = new Array(questions.length).fill(null);  
+let correctCount = 0;  
+let isSubmittedAll = false;  
+
+const questionText = document.getElementById('questionText');  
+const optionsContainer = document.getElementById('options');  
+const explanationEl = document.getElementById('explanation');  
+const progressEl = document.getElementById('progress');  
+const submitBtn = document.getElementById('submitBtn');  
+const prevBtn = document.getElementById('prevBtn');  
+const nextBtn = document.getElementById('nextBtn');  
+const answeredCountEl = document.getElementById('answeredCount');  
+const correctCountEl = document.getElementById('correctCount');  
+const accuracyEl = document.getElementById('accuracy');  
+const summaryCard = document.getElementById('summaryCard');  
+const totalTimeEl = document.getElementById('totalTime');  
+const finalCorrectEl = document.getElementById('finalCorrect');  
+const finalAccuracyEl = document.getElementById('finalAccuracy');  
+const submitAllBtn = document.getElementById('submitAllBtn');  
+const restartBtn = document.getElementById('restartBtn');  
+const restartFromSummary = document.getElementById('restartFromSummary');  
+const bottomNav = document.getElementById('bottomNav');  
+const navScroll = document.getElementById('navScroll');  
+const modalOverlay = document.getElementById('modalOverlay');  
+
+function showModal(message) {  
+document.getElementById('modalMessage').textContent = message;  
+modalOverlay.classList.add('show');  
+}  
+
+function closeModal() {  
+modalOverlay.classList.remove('show');  
+}  
+
+modalOverlay.addEventListener('click', (e) => {  
+if (e.target === modalOverlay) {  
+closeModal();  
+}  
+});  
+
+function updateStats() {  
+const answered = userAnswers.filter(a => a !== null).length;  
+answeredCountEl.textContent = answered;  
+correctCount = 0;  
+for (let i = 0; i < questions.length; i++) {  
+if (userAnswers[i] && userAnswers[i] === questions[i].answer) {  
+correctCount++;  
+}  
+}  
+correctCountEl.textContent = correctCount;  
+const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;  
+accuracyEl.textContent = accuracy;  
+}  
+
+function renderQuestion() {  
+const q = questions[currentQuestion];  
+questionText.innerHTML = `<strong>${currentQuestion + 1}.</strong> ${q.q}`;  
+optionsContainer.innerHTML = '';  
+explanationEl.classList.remove('show');  
+explanationEl.innerHTML = '';  
+
+const optionLabels = ['A', 'B', 'C', 'D'];  
+q.options.forEach((opt, index) => {  
+const div = document.createElement('div');  
+div.className = 'option';  
+div.dataset.index = index;  
+div.dataset.label = optionLabels[index];  
+div.textContent = `${optionLabels[index]}. ${opt}`;  
+
+if (userAnswers[currentQuestion] === optionLabels[index]) {  
+div.classList.add('selected');  
+}  
+
+if (!isSubmittedAll) {  
+div.addEventListener('click', () => {  
+document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));  
+div.classList.add('selected');  
+userAnswers[currentQuestion] = optionLabels[index];  
+});  
+} else {  
+div.style.pointerEvents = 'none';  
+div.style.opacity = '0.9';  
+}  
+optionsContainer.appendChild(div);  
+});  
+
+progressEl.textContent = `第 ${currentQuestion + 1} 题 / 共 ${questions.length} 题`;  
+
+if (isSubmittedAll) {  
+prevBtn.disabled = true;  
+nextBtn.disabled = true;  
+submitBtn.disabled = true;  
+} else {  
+prevBtn.disabled = currentQuestion === 0;  
+nextBtn.disabled = false;  
+submitBtn.disabled = false;  
+}  
+updateStats();  
+
+if (isSubmittedAll) {  
+showResultForIndex(currentQuestion);  
+}  
+}  
+
+function showResultForIndex(index) {  
+const correctAnswer = questions[index].answer;  
+const userAnswer = userAnswers[index];  
+
+const allOptions = optionsContainer.querySelectorAll('.option');  
+allOptions.forEach(opt => {  
+opt.classList.remove('correct', 'incorrect');  
+});  
+
+allOptions.forEach(opt => {  
+const label = opt.dataset.label;  
+if (label === correctAnswer) {  
+opt.classList.add('correct');  
+} else if (label === userAnswer && userAnswer !== correctAnswer) {  
+opt.classList.add('incorrect');  
+}  
+});  
+
+let explanationHTML = `  
+${userAnswer === correctAnswer ? '✔正确！' : '❌错误！正确答案是 ' + correctAnswer}  
+<br><strong>解析：</strong>${questions[index].explanation}  
+`;  
+if (questions[index].detail) {  
+explanationHTML += `<div class="extension"><strong>🔍 拓展知识：</strong>${questions[index].detail}</div>`;  
+}  
+explanationEl.innerHTML = explanationHTML;  
+explanationEl.classList.add('show');  
+}  
+
+function showResult(forCurrentOnly = true) {  
+if (forCurrentOnly) {  
+showResultForIndex(currentQuestion);  
+}  
+}  
+
+function finishQuiz() {  
+totalTime = Date.now() - startTime;  
+const totalSeconds = Math.floor(totalTime / 1000);  
+const minutes = Math.floor(totalSeconds / 60);  
+const seconds = totalSeconds % 60;  
+totalTimeEl.textContent = `${minutes}分${seconds}秒`;  
+finalCorrectEl.textContent = correctCount;  
+finalAccuracyEl.textContent = Math.round((correctCount / questions.length) * 100);  
+summaryCard.classList.add('show');  
+}  
+
+function renderBottomNav() {  
+navScroll.innerHTML = '';  
+for (let i = 0; i < questions.length; i++) {  
+const btn = document.createElement('button');  
+btn.textContent = i + 1;  
+btn.className = 'nav-btn';  
+btn.dataset.index = i;  
+const userAns = userAnswers[i];  
+const correctAns = questions[i].answer;  
+
+if (userAns === null) {  
+btn.style.backgroundColor = '#cbd5e1';  
+btn.title = `第${i+1}题：未作答`;  
+} else if (userAns === correctAns) {  
+btn.style.backgroundColor = '#22c55e';  
+btn.title = `第${i+1}题：回答正确`;  
+} else {  
+btn.style.backgroundColor = '#ef4444';  
+btn.title = `第${i+1}题：回答错误`;  
+}  
+
+btn.addEventListener('click', () => {  
+currentQuestion = i;  
+renderQuestion();   
+setTimeout(() => {  
+document.querySelector('.question-container')?.scrollIntoView({  
+behavior: 'smooth',  
+block: 'center'  
+});  
+}, 100);  
+});  
+navScroll.appendChild(btn);  
+}  
+bottomNav.style.display = 'block';  
+}  
+
+function submitAllAnswers() {  
+isSubmittedAll = true;  
+currentQuestion = questions.length - 1;  
+renderQuestion();  
+finishQuiz();  
+renderBottomNav();  
+}  
+
+function restartQuiz() {  
+userAnswers = new Array(questions.length).fill(null);  
+currentQuestion = 0;  
+correctCount = 0;  
+isSubmittedAll = false;  
+startTime = Date.now();  
+summaryCard.classList.remove('show');  
+bottomNav.style.display = 'none';  
+renderQuestion();  
+}  
+
+submitBtn.addEventListener('click', () => {  
+if (userAnswers[currentQuestion]) {  
+showResult(true);  
+} else {  
+showModal('请先选择一个答案！');  
+}  
+});  
+
+prevBtn.addEventListener('click', () => {  
+if (currentQuestion > 0 && !isSubmittedAll) {  
+currentQuestion--;  
+renderQuestion();  
+submitBtn.disabled = false;  
+summaryCard.classList.remove('show');  
+}  
+});  
+
+nextBtn.addEventListener('click', () => {  
+if (isSubmittedAll) return;  
+if (userAnswers[currentQuestion] === null) {  
+showModal('请先选择答案再进入下一题！');  
+return;  
+}  
+if (currentQuestion < questions.length - 1) {  
+currentQuestion++;  
+renderQuestion();  
+submitBtn.disabled = false;  
+summaryCard.classList.remove('show');  
+}  
+});  
+
+submitAllBtn.addEventListener('click', submitAllAnswers);  
+restartBtn.addEventListener('click', restartQuiz);  
+restartFromSummary.addEventListener('click', restartQuiz);  
+
+renderQuestion();  
+</script>  
+</body>
+</html>
